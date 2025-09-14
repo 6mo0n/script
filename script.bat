@@ -41,7 +41,7 @@ echo.
 echo    ========================================
 echo.
 
-choice /c 123456 /n /m "Select an option (1-6): "
+choice /c 123456 /n /m "Select an option (1-5): "
 
 if %errorlevel% equ 1 goto DisableUserData
 if %errorlevel% equ 2 goto DisableSysMain
@@ -59,17 +59,17 @@ echo.
 :: Stop Data Usage
 sc stop "DusmSvc" >nul 2>&1
 if !errorlevel! equ 0 (
-    echo    + Service DusmSvc stopped successfully
+    echo    [+] Service DusmSvc stopped successfully
 ) else (
-    echo    - Could not stop DusmSvc (may already be stopped)
+    echo    [-] Could not stop DusmSvc (may already be stopped)
 )
 
 :: Off autorun
 sc config "DusmSvc" start= disabled >nul 2>&1
 if !errorlevel! equ 0 (
-    echo    + Service DusmSvc startup set to disabled
+    echo    [+] Service DusmSvc startup set to disabled
 ) else (
-    echo    - Could not disable DusmSvc startup
+    echo    [-] Could not disable DusmSvc startup
 )
 
 echo.
@@ -89,17 +89,17 @@ echo.
 :: Stop SysMain
 sc stop "SysMain" >nul 2>&1
 if !errorlevel! equ 0 (
-    echo    + Service SysMain stopped successfully
+    echo    [+] Service SysMain stopped successfully
 ) else (
-    echo    - Could not stop SysMain (may already be stopped)
+    echo    [-] Could not stop SysMain (may already be stopped)
 )
 
 :: Off autorun
 sc config "SysMain" start= disabled >nul 2>&1
 if !errorlevel! equ 0 (
-    echo    + Service SysMain startup set to disabled
+    echo    [+] Service SysMain startup set to disabled
 ) else (
-    echo    - Could not disable SysMain startup
+    echo    [-] Could not disable SysMain startup
 )
 
 echo.
@@ -126,9 +126,9 @@ echo "MRUList"="" >> temp_permissions.reg
 reg import temp_permissions.reg >nul 2>&1
 
 if !errorlevel! equ 0 (
-    echo    + RunMRU history has been cleared
+    echo    [+] RunMRU history has been cleared
 ) else (
-    echo    - Could not clear RunMRU history
+    echo    [-] Could not clear RunMRU history
 )
 
 :: Delete temp file
@@ -138,7 +138,7 @@ del temp_permissions.reg >nul 2>&1
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "StartMenuRun" /t REG_DWORD /d 0 /f >nul 2>&1
 
-echo    + Run command history tracking disabled
+echo    [+] Run command history tracking disabled
 echo.
 echo    LastActivity (RunMRU) has been disabled!
 echo.
@@ -156,13 +156,13 @@ echo.
 if exist "C:\ProgramData\NVIDIA Corporation\Drs" (
     rd /s /q "C:\ProgramData\NVIDIA Corporation\Drs" >nul 2>&1
     if !errorlevel! equ 0 (
-        echo    + NVIDIA Drs folder deleted successfully
+        echo    [+] NVIDIA Drs folder deleted successfully
     ) else (
-        echo    - Could not delete Drs folder (access denied)
+        echo    [-] Could not delete Drs folder (access denied)
         echo    Run as Administrator to delete protected files
     )
 ) else (
-    echo    - Drs folder not found or already deleted
+    echo    [-] Drs folder not found or already deleted
 )
 echo.
 pause
